@@ -9,13 +9,16 @@
  */
 
 // NPM modules
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 
 // Material UI
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
+// Data modules
+import Services from 'data/services';
 
 // Shared communication modules
 import Rest from 'shared/communication/rest';
@@ -30,7 +33,7 @@ import Menu from 'components/composites/Menu';
 
 // Pages
 import Main from 'components/pages/Main';
-import NotFound from 'components/pages/NotFound';
+import Noun from 'components/pages/Noun';
 
 // CSS Theme
 import Theme from 'components/Theme'
@@ -57,9 +60,6 @@ Rest.init(process.env.REACT_APP_MEMS_DOMAIN, process.env.REACT_APP_MEMS_DOMAIN, 
 	use_session: false
 });
 
-// Hide the loader
-LoaderHide();
-
 // Theme
 const useStyles = makeStyles((theme) => ({
 	override: {
@@ -72,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		height: '100%'
+	},
+	loading: {
+		padding: '10px'
 	},
 	middle: {
 		display: 'flex',
@@ -90,7 +93,8 @@ const useStyles = makeStyles((theme) => ({
 		flexBasis: '0',
 		flexShrink: '1',
 		flexGrow: '1',
-		padding: '10px'
+		padding: '10px',
+		overflow: 'auto'
 	}
 }));
 
@@ -108,8 +112,21 @@ export default function Site(props) {
 	// Styles
 	const classes = useStyles();
 
+	// State
+	let [loaded, loadedSet] = useState(false);
+
 	// hooks
 	let location = useLocation();
+
+	// Load effect
+	useEffect(() => {
+		Services.init().then(res => {
+			loadedSet(true);
+		}, err => {
+			console.log(err);
+			Events.trigger('error', 'Failed to load services');
+		});
+	}, [])
 
 	// Render
 	return (
@@ -119,33 +136,32 @@ export default function Site(props) {
 				<CssBaseline />
 				<div className={classes.site}>
 					<Header />
-					<div className={classes.middle}>
-						<div className={classes.menu}>
-							<Menu />
-						</div>
-						<div className={classes.page}>
-							<Switch>
-								<Route
-									exact
-									path="/"
-								>
-									<Main />
-								</Route>
-								{/*<Route
-									exact
-									path="/appointment/:_key"
-									children={
-										<CalendlySingle
+					{loaded ?
+						<div className={classes.middle}>
+							<div className={classes.menu}>
+								<Menu />
+							</div>
+							<div className={classes.page}>
+								<Switch>
+									<Route
+										exact
+										path="/"
+									>
+										<Main />
+									</Route>
+									<Route path="*">
+										<Noun
 											key={location.pathname}
 										/>
-									}
-								/>*/}
-								<Route path="*">
-									<NotFound />
-								</Route>
-							</Switch>
+									</Route>
+								</Switch>
+							</div>
 						</div>
-					</div>
+					:
+						<div className={classes.loading}>
+							Loading...
+						</div>
+					}
 				</div>
 			</ThemeProvider>
 		</SnackbarProvider>

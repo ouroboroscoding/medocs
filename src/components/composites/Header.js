@@ -10,11 +10,11 @@
 
 // NPM modules
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		'& a': {
 			color: '#ffffff',
+			textDecoration: 'none',
 			'& img': {
 				width: '240px',
 				[theme.breakpoints.down('sm')]: {
@@ -79,7 +80,7 @@ export default function Header(props) {
 		<AppBar position="relative" className={classes.appbar}>
 			<Toolbar className={classes.toolbar}>
 				<Box className={classes.tag}>
-					<Link href="/">
+					<Link to="/">
 						<img src="/images/logo.png" alt="MaleExcel Logo" style={{}} />
 						<Box>RESTful API Documentation</Box>
 					</Link>

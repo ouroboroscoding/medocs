@@ -14,6 +14,17 @@ import React from 'react';
 // Material UI
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+// Theme
+const useStyles = makeStyles((theme) => ({
+	main: {
+		'& h1': {
+			fontSize: '2rem',
+			fontWeight: 'bold'
+		}
+	}
+}));
 
 /**
  * Main
@@ -27,10 +38,18 @@ import Typography from '@material-ui/core/Typography';
  */
 export default function Main(props) {
 
+	// Styles
+	const classes = useStyles();
+
 	// Render
 	return (
-		<Box>
-			<Typography variant="h2">RESTful API Documentation</Typography>
+		<Box className={classes.main}>
+			<Typography variant="h1">RESTful API Documentation</Typography>
+			<Typography>
+				Welcome to Male Excel's RESTful micro services API documentation.
+				This site will help you get started with how to connect and use
+				the individual nouns in each service.
+			</Typography>
 		</Box>
 	);
 }

@@ -18,18 +18,30 @@ import Collapse from '@material-ui/core/Collapse';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
 // Material UI icons
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-// Shared communication modules
-import Rest from 'shared/communication/rest';
+// Data modules
+import Services from 'data/services';
 
 // Shared generic modules
-import Events from 'shared/generic/events';
-import { clone, safeLocalStorageJSON } from 'shared/generic/tools';
+import { clone, omap, safeLocalStorageJSON } from 'shared/generic/tools';
+
+// Theme
+const useStyles = makeStyles((theme) => ({
+	menu: {
+		'& a, a:active, a:hover, a:link, a:visited': {
+			color: 'inherit',
+			textDecoration: 'none'
+		},
+		'& .submenu': {
+			paddingLeft: '15px'
+		}
+	}
+}));
 
 /**
  * Menu
@@ -43,16 +55,19 @@ import { clone, safeLocalStorageJSON } from 'shared/generic/tools';
  */
 export default function Menu(props) {
 
+	// Styles
+	const classes = useStyles();
+
 	// State
 	let [menu, menuSet] = useState(safeLocalStorageJSON('menuState', {}))
-	let [services, servicesSet] = useState([]);
+	let [services, servicesSet] = useState({});
 
 	// Load effect
 	useEffect(() => {
-		servicesFetch();
-	// es-lint
-	},[]);
+		servicesSet(Services.get());
+	}, []);
 
+	// Open/close service submenus
 	function collapseClick(service) {
 
 		// Clone the current menu
@@ -70,41 +85,20 @@ export default function Menu(props) {
 		localStorage.setItem('menuState', JSON.stringify(oMenu));
 	}
 
-	// Fetch the list of services and their nouns
-	function servicesFetch() {
-
-		// Make the rest to the server ( we use the API to make the API )
-		Rest.read('docs', 'services', {
-			nouns: ['title', 'uri', 'method']
-		}).done(res => {
-
-			// If there's an error
-			if(res.error && !res._handled) {
-				console.log(res);
-				Events.trigger('error', 'Failed to load services');
-			}
-
-			// If there's data
-			if(res.data) {
-				servicesSet(res.data);
-			}
-		});
-	}
-
 	// Render
 	return (
-		<Box>
+		<Box className={classes.menu}>
 			<List>
-				{services.map(o =>
-					<React.Fragment>
-						<ListItem button key={o.title} onClick={ev => collapseClick(o._id)}>
+				{omap(services, o =>
+					<React.Fragment key={o.name}>
+						<ListItem button onClick={ev => collapseClick(o.name)}>
 							<ListItemText primary={o.title} />
-							{menu[o._id] ? <ExpandLess /> : <ExpandMore />}
+							{menu[o.name] ? <ExpandLess /> : <ExpandMore />}
 						</ListItem>
-						<Collapse in={menu[o._id] || false} timeout="auto" unmountOnExit>
+						<Collapse in={menu[o.name] || false} timeout="auto" unmountOnExit>
 							<List component="div" className="submenu">
-								{o.nouns.map(n =>
-									<Link to={'/' + o.name + '/' + n.uri + '/' + n.method.toLowerCase()}>
+								{omap(o.nouns, (n,k) =>
+									<Link key={n._id} to={'/' + o.name + '/' + k}>
 										<ListItem button>
 											<ListItemText primary={n.title} />
 										</ListItem>
