@@ -39,7 +39,9 @@ export default function Main(props) {
 	// Render
 	return (
 		<Box className={classes.main}>
-			<Typography variant="h1">RESTful API Documentation</Typography>
+			<Box className="pageHeader">
+				<Typography variant="h1">RESTful API Documentation</Typography>
+			</Box>
 			<Typography>
 				Welcome to Male Excel's RESTful micro services API documentation.
 				This site will help you get started with how to connect and use

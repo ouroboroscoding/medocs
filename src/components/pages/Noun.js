@@ -33,55 +33,15 @@ const _reURI = /^\/noun\/([^/]+)\/(.*)$/
 // Theme
 const useStyles = makeStyles((theme) => ({
 	noun: {
-		'& .header': {
-			marginBottom: '20px',
-			'& .title': {
-				fontSize: '2rem',
-				fontWeight: 'bold'
-			},
-			'& .request': {
-				fontFamily: 'courier, sans-serif'
-			}
-		},
-		'& .description': {
-			marginBottom: '10px'
+		'& .request': {
+			fontFamily: 'courier, sans-serif',
+			margin: '-15px 0 15px 0'
 		},
 		'& .data': {
 			'& .title': {
 				fontSize: '1.25rem',
 				fontWeight: 'bold',
 				marginBottom: '15px'
-			},
-			'& .request': {
-				'& .fields': {
-					border: '1px solid black',
-					borderRadius: '5px',
-					overflow: 'hidden',
-					'& .gridHeader': {
-						backgroundColor: '#cecece',
-						fontWeight: 'bold',
-						paddingLeft: '10px'
-					},
-					'& .odd': {
-						backgroundColor: '#fff',
-						paddingLeft: '10px'
-					},
-					'& .even': {
-						backgroundColor: '#eee',
-						paddingLeft: '10px'
-					}
-				}
-			},
-			'& .responses': {
-				'& .response': {
-					backgroundColor: '#eee',
-					border: '1px solid black',
-					borderRadius: '5px',
-					fontFamily: 'courier, sans-serif',
-					marginBottom: '15px',
-					overflow: 'hidden',
-					padding: '15px'
-				}
 			}
 		}
 	}
@@ -146,33 +106,33 @@ export default function Noun(props) {
 	// Render
 	return (
 		<Box className={classes.noun}>
-			<Box className="header">
-				<Typography variant="h1">{noun.title}</Typography>
-				<Typography className="request">{noun.method} /{noun.serviceName}/{noun.uri}</Typography>
-			</Box>
-			<Box className="description">
-				<Typography>{noun.description}</Typography>
-			</Box>
+			<Typography variant="h1">{noun.title}</Typography>
+			<Typography className="request">{noun.method} /{noun.serviceName}/{noun.uri}</Typography>
+			<Typography>{noun.description}</Typography>
 			<Grid container spacing={4} className="data">
-				<Grid item xs={12} md={6} className="request">
-					<Typography className="title">Request Data</Typography>
-					<Grid container spacing={1} className="fields">
-						<Grid item xs={6} md={2} className="gridHeader">Field</Grid>
-						<Grid item xs={6} md={2} className="gridHeader">Type</Grid>
-						<Grid item xs={12} md={8} className="gridHeader">Description</Grid>
-						{noun.data.map((d,i) =>
-							<React.Fragment>
-								<Grid item xs={6} md={2} className={i%2===0?'odd':'even'}>{d.field}</Grid>
-								<Grid item xs={6} md={2} className={i%2===0?'odd':'even'}>{d.type}</Grid>
-								<Grid item xs={12} md={8} className={i%2===0?'odd':'even'}>{d.description}</Grid>
-							</React.Fragment>
-						)}
-					</Grid>
+				<Grid item xs={12} md={6}>
+					<Typography variant="h3">Request Data</Typography>
+					{noun.data.length === 0 ?
+						<Typography>This Noun has no data points</Typography>
+					:
+						<Grid container spacing={1} className="gridTable">
+							<Grid item xs={6} md={2} className="gridHeader">Field</Grid>
+							<Grid item xs={6} md={2} className="gridHeader">Type</Grid>
+							<Grid item xs={12} md={8} className="gridHeader">Description</Grid>
+							{noun.data.map((d,i) =>
+								<React.Fragment>
+									<Grid item xs={6} md={2} className={i%2===0?'odd':'even'}>{d.field}</Grid>
+									<Grid item xs={6} md={2} className={i%2===0?'odd':'even'}>{d.type}</Grid>
+									<Grid item xs={12} md={8} className={i%2===0?'odd':'even'}>{d.description}</Grid>
+								</React.Fragment>
+							)}
+						</Grid>
+					}
 				</Grid>
-				<Grid item xs={12} md={6} className="responses">
-					<Typography className="title">Responses</Typography>
+				<Grid item xs={12} md={6}>
+					<Typography variant="h3">Responses</Typography>
 					{noun.response.map(s =>
-						<Box className="response">{s}</Box>
+						<Box className="example">{s}</Box>
 					)}
 				</Grid>
 			</Grid>

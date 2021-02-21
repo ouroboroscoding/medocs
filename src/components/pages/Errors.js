@@ -25,29 +25,7 @@ import { omap } from 'shared/generic/tools';
 
 // Theme
 const useStyles = makeStyles((theme) => ({
-	errors: {
-		'& .header': {
-			marginBottom: '20px'
-		},
-		'& .codes': {
-			border: '1px solid black',
-			borderRadius: '5px',
-			overflow: 'hidden',
-			'& .gridHeader': {
-				backgroundColor: '#cecece',
-				fontWeight: 'bold',
-				paddingLeft: '10px'
-			},
-			'& .odd': {
-				backgroundColor: '#fff',
-				paddingLeft: '10px'
-			},
-			'& .even': {
-				backgroundColor: '#eee',
-				paddingLeft: '10px'
-			}
-		}
-	}
+	errors: {}
 }));
 
 /**
@@ -78,12 +56,12 @@ export default function Errors(props) {
 		<Box className={classes.errors}>
 			<Box className="header">
 				<Typography variant="h1">Error Codes</Typography>
-				<Typography>
-					This is a list of all Error codes that can be returned by the
-					API
-				</Typography>
 			</Box>
-			<Grid container spacing={1} className="codes">
+			<Typography>
+				This is a list of all Error codes that can be returned by the
+				API
+			</Typography>
+			<Grid container spacing={1} className="gridTable">
 				<Grid item xs={3} md={1} className="gridHeader">Code</Grid>
 				<Grid item xs={9} md={7} className="gridHeader">Description</Grid>
 				<Grid item xs={12} md={4} className="gridHeader">Examples</Grid>
