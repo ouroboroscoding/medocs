@@ -10,7 +10,7 @@
 
 // NPM modules
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 		},
 		'& .submenu': {
 			paddingLeft: '15px'
+		},
+		'& .selected': {
+			color: '#aa1f23'
 		}
 	}
 }));
@@ -61,6 +64,9 @@ export default function Menu(props) {
 	// State
 	let [menu, menuSet] = useState(safeLocalStorageJSON('menuState', {}))
 	let [services, servicesSet] = useState({});
+
+	// Hooks
+	let location = useLocation();
 
 	// Load effect
 	useEffect(() => {
@@ -89,6 +95,16 @@ export default function Menu(props) {
 	return (
 		<Box className={classes.menu}>
 			<List>
+				<Link to="/start">
+					<ListItem button className={'/start' === location.pathname ? 'selected' : ''}>
+						<ListItemText primary="Getting Started" />
+					</ListItem>
+				</Link>
+				<Link to="/errors">
+					<ListItem button className={'/errors' === location.pathname ? 'selected' : ''}>
+						<ListItemText primary="Error Codes" />
+					</ListItem>
+				</Link>
 				{omap(services, o =>
 					<React.Fragment key={o.name}>
 						<ListItem button onClick={ev => collapseClick(o.name)}>
@@ -97,13 +113,16 @@ export default function Menu(props) {
 						</ListItem>
 						<Collapse in={menu[o.name] || false} timeout="auto" unmountOnExit>
 							<List component="div" className="submenu">
-								{omap(o.nouns, (n,k) =>
-									<Link key={n._id} to={'/' + o.name + '/' + k}>
-										<ListItem button>
-											<ListItemText primary={n.title} />
-										</ListItem>
-									</Link>
-								)}
+								{omap(o.nouns, (n,k) => {
+									let sPath = '/noun/' + o.name + '/' + k;
+									return (
+										<Link key={n._id} to={sPath}>
+											<ListItem button className={sPath === location.pathname ? 'selected' : ''}>
+												<ListItemText primary={n.title} />
+											</ListItem>
+										</Link>
+									);
+								})}
 							</List>
 						</Collapse>
 					</React.Fragment>

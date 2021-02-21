@@ -83,8 +83,6 @@ export function init() {
 					}
 				}
 
-				console.log(_services);
-
 				// Return that we're done
 				return resolve(true);
 			}
@@ -143,6 +141,9 @@ export function noun(service, uri) {
 
 			// If there's data
 			if(res.data) {
+
+				// Add the service to it
+				res.data.serviceName = service;
 
 				// Store it for follow up requests
 				_nouns[sID] = res.data;

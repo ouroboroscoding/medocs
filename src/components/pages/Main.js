@@ -18,12 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Theme
 const useStyles = makeStyles((theme) => ({
-	main: {
-		'& h1': {
-			fontSize: '2rem',
-			fontWeight: 'bold'
-		}
-	}
+	main: {}
 }));
 
 /**

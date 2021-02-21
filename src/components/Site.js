@@ -18,6 +18,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 
 // Data modules
+import ErrorCodes from 'data/errorCodes';
 import Services from 'data/services';
 
 // Shared communication modules
@@ -30,8 +31,10 @@ import Events from 'shared/generic/events';
 import Alerts from 'components/composites/Alerts';
 import Header from 'components/composites/Header';
 import Menu from 'components/composites/Menu';
+import NotFound from 'components/composites/NotFound';
 
 // Pages
+import Errors from 'components/pages/Errors';
 import Main from 'components/pages/Main';
 import Noun from 'components/pages/Noun';
 
@@ -87,14 +90,18 @@ const useStyles = makeStyles((theme) => ({
 		flexShrink: '0',
 		flexGrow: '0',
 		padding: '5px',
-		width: '250px'
+		width: '220px'
 	},
 	page: {
 		flexBasis: '0',
 		flexShrink: '1',
 		flexGrow: '1',
 		padding: '10px',
-		overflow: 'auto'
+		overflow: 'auto',
+		'& h1': {
+			fontSize: '2rem',
+			fontWeight: 'bold'
+		}
 	}
 }));
 
@@ -113,20 +120,32 @@ export default function Site(props) {
 	const classes = useStyles();
 
 	// State
-	let [loaded, loadedSet] = useState(false);
+	let [services, servicesSet] = useState(false);
+	let [errors, errorsSet] = useState(false);
 
 	// hooks
 	let location = useLocation();
 
 	// Load effect
 	useEffect(() => {
+
+		// Load the services
 		Services.init().then(res => {
-			loadedSet(true);
+			servicesSet(true);
 		}, err => {
 			console.log(err);
 			Events.trigger('error', 'Failed to load services');
 		});
-	}, [])
+
+		// Load the error codes
+		ErrorCodes.init().then(res => {
+			errorsSet(true);
+		}, err => {
+			console.log(err);
+			Events.trigger('error', 'Failed to load error codes');
+		});
+
+	}, []);
 
 	// Render
 	return (
@@ -136,7 +155,7 @@ export default function Site(props) {
 				<CssBaseline />
 				<div className={classes.site}>
 					<Header />
-					{loaded ?
+					{services ?
 						<div className={classes.middle}>
 							<div className={classes.menu}>
 								<Menu />
@@ -149,8 +168,21 @@ export default function Site(props) {
 									>
 										<Main />
 									</Route>
-									<Route path="*">
+									<Route
+										exact
+										path="/errors"
+									>
+										{errors &&
+											<Errors />
+										}
+									</Route>
+									<Route path="/noun/">
 										<Noun
+											key={location.pathname}
+										/>
+									</Route>
+									<Route path="*">
+										<NotFound
 											key={location.pathname}
 										/>
 									</Route>
