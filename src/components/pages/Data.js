@@ -1,7 +1,7 @@
 /**
- * Start
+ * Data
  *
- * Displays the start page
+ * Displays the Data page
  *
  * @author Chris Nasr <bast@maleexcel.com>
  * @copyright MaleExcelMedical
@@ -19,38 +19,33 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Theme
 const useStyles = makeStyles((theme) => ({
-	start: {}
+	data: {}
 }));
 
 /**
- * Start
+ * Data
  *
  * Handles homepage
  *
- * @name Start
+ * @name Data
  * @access public
  * @param Object props Attributes sent to the component
  * @returns React.Component
  */
-export default function Start(props) {
+export default function Data(props) {
 
 	// Styles
 	const classes = useStyles();
 
 	// Render
 	return (
-		<Box className={classes.start}>
+		<Box className={classes.data}>
 			<Box className="pageHeader">
-				<Typography variant="h1">Getting Started</Typography>
+				<Typography variant="h1">Data</Typography>
 			</Box>
 			<Typography>
-				This page will help you get started using the this API. It describes the steps necessary to make a request, whether with
-				a session or without. If you are unfamiliar with RESTful architecture, also known as <Link color="secondary" rel="noreferrer" href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">Representational State Transfer</Link>,
-				I suggest doing some research so that the concepts of this API are easier to grasp.
-			</Typography>
-			<Typography>
 				This API uses <Link color="secondary" rel="noreferrer" href="https://en.wikipedia.org/wiki/JSON" target="_blank">JSON</Link> to
-				communicate data to and from the server. Unless the request does not require any input, it should be sent an Object with the necessary fields
+				communicate data to and from the server. Regardless of input, the Content-Type must be <b>application/json; charset=utf8</b>, and content be an Object with the necessary fields
 				like the following example:
 			</Typography>
 			<Box className="example">

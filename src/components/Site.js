@@ -34,10 +34,11 @@ import Menu from 'components/composites/Menu';
 import NotFound from 'components/composites/NotFound';
 
 // Pages
+import Authorization from 'components/pages/Authorization';
+import Data from 'components/pages/Data';
 import Errors from 'components/pages/Errors';
 import Main from 'components/pages/Main';
 import Noun from 'components/pages/Noun';
-import Start from 'components/pages/Start';
 
 // CSS Theme
 import Theme from 'components/Theme'
@@ -218,9 +219,15 @@ export default function Site(props) {
 										</Route>
 										<Route
 											exact
-											path="/start"
+											path="/data"
 										>
-											<Start />
+											<Data />
+										</Route>
+										<Route
+											exact
+											path="/authorization"
+										>
+											<Authorization />
 										</Route>
 										<Route
 											exact

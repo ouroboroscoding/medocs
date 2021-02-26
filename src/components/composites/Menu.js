@@ -95,9 +95,14 @@ export default function Menu(props) {
 	return (
 		<Box className={classes.menu}>
 			<List>
-				<Link to="/start">
-					<ListItem button className={'/start' === location.pathname ? 'selected' : ''}>
-						<ListItemText primary="Getting Started" />
+				<Link to="/data">
+					<ListItem button className={'/data' === location.pathname ? 'selected' : ''}>
+						<ListItemText primary="Data" />
+					</ListItem>
+				</Link>
+				<Link to="/authorization">
+					<ListItem button className={'/authorization' === location.pathname ? 'selected' : ''}>
+						<ListItemText primary="Authorization" />
 					</ListItem>
 				</Link>
 				<Link to="/errors">

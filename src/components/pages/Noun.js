@@ -10,7 +10,7 @@
 
 // NPM modules
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -108,6 +108,9 @@ export default function Noun(props) {
 		<Box className={classes.noun}>
 			<Typography variant="h1">{noun.title}</Typography>
 			<Typography className="request">{noun.method} /{noun.serviceName}/{noun.uri}</Typography>
+			{noun.session === 1 &&
+				<Typography>Requires <Link to="/authorization">Authorization</Link></Typography>
+			}
 			<Typography>{noun.description}</Typography>
 			<Grid container spacing={4} className="data">
 				<Grid item xs={12} md={6}>
