@@ -13,7 +13,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Material UI
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
 /**
@@ -33,9 +33,9 @@ export default function NotFound(props) {
 
 	// Render
 	return (
-		<Container maxWidth="md">
+		<Box>
 			<Typography variant="h1">404 Not Found</Typography>
 			<Typography>The page {location.pathname} could not be found</Typography>
-		</Container>
+		</Box>
 	);
 }

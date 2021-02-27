@@ -18,7 +18,7 @@ import Events from  'shared/generic/events';
 import { useEvent } from 'shared/hooks/event';
 
 // Local variables
-let _count = 1;
+let _count = 0;
 
 // Loader component
 export default function Loader(props) {
