@@ -113,26 +113,26 @@ export default function Noun(props) {
 			}
 			<Typography>{noun.description}</Typography>
 			<Grid container spacing={4} className="data">
-				<Grid item xs={12} md={6}>
+				<Grid item xs={12} lg={6}>
 					<Typography variant="h3">Request Data</Typography>
 					{noun.data.length === 0 ?
 						<Typography>This Noun has no data points</Typography>
 					:
 						<Grid container spacing={1} className="gridTable">
-							<Grid item xs={6} md={2} className="gridHeader">Field</Grid>
-							<Grid item xs={6} md={2} className="gridHeader">Type</Grid>
-							<Grid item xs={12} md={8} className="gridHeader">Description</Grid>
+							<Grid item xs={6} sm={3} className="gridHeader">Field</Grid>
+							<Grid item xs={6} sm={3} className="gridHeader">Type</Grid>
+							<Grid item xs={12} sm={6} className="gridHeader">Description</Grid>
 							{noun.data.map((d,i) =>
 								<React.Fragment>
-									<Grid item xs={6} md={2} className={i%2===0?'odd':'even'}>{d.field}</Grid>
-									<Grid item xs={6} md={2} className={i%2===0?'odd':'even'}>{d.type}</Grid>
-									<Grid item xs={12} md={8} className={i%2===0?'odd':'even'}>{d.description}</Grid>
+									<Grid item xs={6} sm={3} className={i%2===0?'odd':'even'}>{d.field}</Grid>
+									<Grid item xs={6} sm={3} className={i%2===0?'odd':'even'}>{d.type}</Grid>
+									<Grid item xs={12} sm={6} className={i%2===0?'odd':'even'}>{d.description}</Grid>
 								</React.Fragment>
 							)}
 						</Grid>
 					}
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid item xs={12} lg={6}>
 					<Typography variant="h3">Responses</Typography>
 					{noun.response.map(s =>
 						<Box className="example">{s}</Box>
