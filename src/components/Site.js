@@ -80,13 +80,6 @@ const useStyles = makeStyles((theme) => ({
 		flexBasis: '0',
 		flexShrink: '1',
 		flexGrow: '1',
-		'& .menu': {
-			flexBasis: 'auto',
-			flexShrink: '0',
-			flexGrow: '0',
-			padding: '5px',
-			width: '220px'
-		},
 		'& .page': {
 			display: 'flex',
 			flexDirection: 'column',
@@ -205,9 +198,7 @@ export default function Site(props) {
 					<Header />
 					{services ?
 						<div className={classes.middle}>
-							<div className="menu">
-								<Menu />
-							</div>
+							<Menu />
 							<div className="page">
 								<div className="content">
 									<Switch>

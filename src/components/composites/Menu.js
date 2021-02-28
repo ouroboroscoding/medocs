@@ -33,15 +33,28 @@ import { clone, omap, safeLocalStorageJSON } from 'shared/generic/tools';
 // Theme
 const useStyles = makeStyles((theme) => ({
 	menu: {
-		'& a, a:active, a:hover, a:link, a:visited': {
-			color: 'inherit',
-			textDecoration: 'none'
-		},
-		'& .submenu': {
-			paddingLeft: '15px'
-		},
-		'& .selected': {
-			color: '#aa1f23'
+		display: 'flex',
+		flexDirection: 'column',
+		flexBasis: 'auto',
+		flexShrink: '0',
+		flexGrow: '0',
+		padding: '5px',
+		width: '220px',
+		'& .items': {
+			flexBasis: '0',
+			flexShrink: '1',
+			flexGrow: '1',
+			overflow: 'auto',
+			'& a, a:active, a:hover, a:link, a:visited': {
+				color: 'inherit',
+				textDecoration: 'none'
+			},
+			'& .submenu': {
+				paddingLeft: '15px'
+			},
+			'& .selected': {
+				color: '#aa1f23'
+			}
 		}
 	}
 }));
@@ -94,7 +107,7 @@ export default function Menu(props) {
 	// Render
 	return (
 		<Box className={classes.menu}>
-			<List>
+			<List className="items">
 				<Link to="/data">
 					<ListItem button className={'/data' === location.pathname ? 'selected' : ''}>
 						<ListItemText primary="Data" />
